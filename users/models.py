@@ -4,6 +4,7 @@ import uuid
 
 from django.db.models.signals import post_save,post_delete,pre_save
 from django.dispatch import receiver
+from django.urls import reverse
 
 
 class Profile(models.Model):
@@ -28,6 +29,9 @@ class Profile(models.Model):
 
   def __str__(self):
     return str(self.username)
+
+  # def get_absolute_url(self):
+  #     return reverse('user_profile', kwargs={'pk': self.pk})
 
   class Meta:
     ordering = ['-created']

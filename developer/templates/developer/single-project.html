@@ -18,21 +18,25 @@
                 </div>
 
                 {% if project.source_link %}
-                <a class="singleProject__liveLink" href="#" target="_blank"><i class="im im-external-link"></i>Source
+                <a class="singleProject__liveLink" href="{{project.source_link}}" target="_blank"><i
+                        class="im im-external-link"></i>Source
                     Code
                 </a>
                 {% endif %}
 
                 {% if project.demo_link %}
-                <a class="singleProject__liveLink" href="#" target="_blank"><i class="im im-external-link"></i>Live Demo
+                <a class="singleProject__liveLink" href="{{project.source_link}}" target="_blank"><i
+                        class="im im-external-link"></i>Live Demo
 
                 </a>
                 {% endif %}
 
             </div>
             <div class="column column--2of3">
-                <img class="singleProject__preview" src="{{ project.featured_image.url }}" alt="portfolio thumbnail" />
-                <a href="profile.html" class="singleProject__developer">{{project.owner.name}}</a>
+                <img class="singleProject__preview" src="{{ project.imageURL }}" alt="portfolio thumbnail" />
+                {% comment %} <a href="{% url 'user_profile' project.owner.id  %}"
+                    class="singleProject__developer">{{project.owner.name}}</a> {% endcomment %}
+              
                 <h2 class="singleProject__title">{{project.title}}</h2>
                 <h3 class="singleProject__subtitle">About the Project</h3>
                 <div class="singleProject__info">
@@ -70,19 +74,18 @@
                         {% for review in project.review_set.all %}
                         {% if review.body %}
                         <div class="comment">
-                            {% comment %} <a href="{% url 'user_profile' review.owner.id  %}">
-                                <img class="avatar avatar--md" src="{{review.owner.profile_pic.url}}" alt="user" />
+                             {% comment %} <a href="{% url 'user_profile' review.owner.id  %}"> 
+                                <img class="avatar avatar--md" src="{{review.owner.profile_image.url}}" alt="user" />
                             </a> {% endcomment %}
 
 
-                            {% comment %} <div class="comment__details">
-                                 <a href="{% url 'user_profile' review.owner.id  %}"
-                                 
-                                class="comment__author">{{review.owner.name}}</a> 
-                                    
-                                   
+                            <div class="comment__details">
+                                 {% comment %} <a href="{% url 'user_profile' review.owner.id  %}"
+                                    class="comment__author">{{review.owner.name}}</a>  {% endcomment %}
+
+                                
                                 <p class="comment__info">{{review.body|linebreaksbr}}</p>
-                            </div> {% endcomment %}
+                            </div>
 
                         </div>
                         {% endif %}

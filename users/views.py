@@ -111,7 +111,7 @@ def user_profile(request, pk):
         'top_skills': top_skills,
         'other_skills': other_skills
     }
-    return render(request, 'users/user-profile.html', context)
+    return render(request, 'users/user_profile.html', context)
 
 
 

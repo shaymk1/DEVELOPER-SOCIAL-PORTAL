@@ -4,7 +4,7 @@ from .forms import ProjectForm  # , ReviewForm
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
-from .utils import searchProjects , paginateProjects
+from .utils import searchProjects, paginateProjects
 
 # Create your views here.
 
@@ -12,10 +12,8 @@ from .utils import searchProjects , paginateProjects
 def projects(request):
     projects, search_query = searchProjects(request)
 
-
     custom_range, projects = paginateProjects(request, projects, 6)
 
-    
     context = {
 
         'projects': projects,
@@ -38,6 +36,8 @@ def project(request, pk):
         'tags': tags
 
     }
+  
+    # return redirect(reverse('project', kwargs={'pk': project.pk}))
 
     return render(request, "developer/single-project.html", context)
 
