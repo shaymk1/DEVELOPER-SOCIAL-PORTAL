@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect, reverse
 from .models import *
-from .forms import ProjectForm  # , ReviewForm
+from .forms import ProjectForm, ReviewForm
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
 from .utils import searchProjects, paginateProjects
+from django.contrib import messages
 
 # Create your views here.
 
@@ -29,14 +30,30 @@ def projects(request):
 
 def project(request, pk):
     project_obj = Project.objects.get(id=pk)
+    form = ReviewForm
     tags = project_obj.tags.all()
+
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+        review = form.save(commit=False)
+        review.project = project_obj
+        review.owner = request.user.profile
+        review.save()
+
+        project_obj.getVoteCount
+
+        messages.success(request, 'review submitted successfully!')
+        return redirect('project', pk=project_obj.id)
+
     context = {
 
-        'project_obj': project_obj,
-        'tags': tags
+        'form': form,
+        'project': project_obj,
+        'tags': tags,
+        # 'review':review
 
     }
-  
+
     # return redirect(reverse('project', kwargs={'pk': project.pk}))
 
     return render(request, "developer/single-project.html", context)

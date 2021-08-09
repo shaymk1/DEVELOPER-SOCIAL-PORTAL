@@ -7,7 +7,7 @@ from django.contrib import messages
 from django.db.models import Q
 from . models import *
 from . forms import CustomUserCreationForm, ProfileForm, SkillForm
-from .utils import searchProfiles , paginateProfiles
+from .utils import searchProfiles, paginateProfiles
 
 
 # Create your views here.
@@ -39,7 +39,8 @@ def login_user(request):
         if user is not None:
             # if user exist, log them in/create a session in the coockie for the user
             login(request, user)
-            return redirect('profiles')
+            return redirect(request.GET['next'] if 'next' in request.GET else 'account')
+            # return redirect('profiles')
 
         else:
 
@@ -91,12 +92,12 @@ def profiles(request):
 
     custom_range, profiles = paginateProfiles(request, profiles, 3)
     context = {
-        
+
         'profiles': profiles,
         'search_query': search_query,
         'custom_range': custom_range
-            
-            }
+
+    }
     return render(request, 'users/profiles.html', context)
 
 
@@ -111,10 +112,7 @@ def user_profile(request, pk):
         'top_skills': top_skills,
         'other_skills': other_skills
     }
-    return render(request, 'users/user_profile.html', context)
-
-
-
+    return render(request, 'users/user-profile.html', context)
 
 
 @login_required(login_url='login')
