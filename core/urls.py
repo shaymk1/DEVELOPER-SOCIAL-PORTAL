@@ -26,6 +26,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('projects/', include("developer.urls")),
     path('', include("users.urls")), # empty string because we want the users to be homepage instead of projects
+    path('api/', include("api.urls")),
 
     path('reset_password/', auth_views.PasswordResetView.as_view(template_name="reset_password.html"),
          name="reset_password"),
